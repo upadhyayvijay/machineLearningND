@@ -24,6 +24,7 @@ class LearningAgent(Agent):
         ###########
         # Set any additional class parameters as needed
         self.t = 0
+        random.seed(5)
 
 
     def reset(self, destination=None, testing=False):
@@ -41,12 +42,18 @@ class LearningAgent(Agent):
         # Update additional class parameters as needed
         # If 'testing' is True, set epsilon and alpha to 0
         if testing:
-            epsilon = 0
-            alpha = 0
+            self.epsilon = 0.0
+            self.alpha = 0.0
         else:
             self.t += 1
             ## some decay function that depends on t
-            self.epsilon = self.epsilon-0.05
+            #self.epsilon = self.epsilon-0.05
+            # a = 0.99, 0.5, 0.1, 0.01
+            a = 0.1
+            #self.epsilon = a**self.t
+            #self.epsilon = 1/(self.t**2)
+            self.epsilon = math.fabs(math.cos(a*self.t))
+            #self.epsilon = math.e**((-a)*self.t)
 
         return None
 
@@ -54,7 +61,6 @@ class LearningAgent(Agent):
         """ The build_state function is called when the agent requests data from the 
             environment. The next waypoint, the intersection inputs, and the deadline 
             are all features available to the agent. """
-        print "hello"
         # Collect data about the environment
         waypoint = self.planner.next_waypoint() # The next waypoint 
         inputs = self.env.sense(self)           # Visual input - intersection light and traffic
@@ -106,8 +112,7 @@ class LearningAgent(Agent):
         #   Then, for each action available, set the initial Q-value to 0.0
         
         if self.learning:
-            if not(state in self.Q):
-                self.Q[state] = {None:0.0, 'forward':0.0, 'left':0.0, 'right':0.0}
+            self.Q[state] = self.Q.get(state, {None:0.0, 'forward':0.0, 'left':0.0, 'right':0.0})
             
         return
 
@@ -128,16 +133,18 @@ class LearningAgent(Agent):
         # When learning, choose a random action with 'epsilon' probability
         #   Otherwise, choose an action with the highest Q-value for the current state
         
-        if not(self.learning):
+        if not self.learning:
             action = random.choice(self.valid_actions)
         else:
             if self.epsilon > 0.01 and self.epsilon >= random.random():
                 action = random.choice(self.valid_actions)
             else:
+                valid_actions = []
                 maxQ = self.get_maxQ(state)
                 for act in self.Q[state]:
                     if maxQ == self.Q[state][act]:
-                        action = act
+                        valid_actions.append(act)
+                action = random.choice(valid_actions)
  
         return action
 
@@ -190,13 +197,13 @@ def run():
     #   learning   - set to True to force the driving agent to use Q-learning
     #    * epsilon - continuous value for the exploration factor, default is 1
     #    * alpha   - continuous value for the learning rate, default is 0.5
-    agent = env.create_agent(LearningAgent, learning = True)
+    agent = env.create_agent(LearningAgent, learning=True)
     
     ##############
     # Follow the driving agent
     # Flags:
     #   enforce_deadline - set to True to enforce a deadline metric
-    env.set_primary_agent(agent, enforce_deadline = True)
+    env.set_primary_agent(agent, enforce_deadline=True)
 
     ##############
     # Create the simulation
@@ -205,14 +212,14 @@ def run():
     #   display      - set to False to disable the GUI if PyGame is enabled
     #   log_metrics  - set to True to log trial and simulation results to /logs
     #   optimized    - set to True to change the default log file name
-    sim = Simulator(env, update_delay=0.2, log_metrics=True)
+    sim = Simulator(env, update_delay=0.01, log_metrics=True, optimized=True)
     
     ##############
     # Run the simulator
     # Flags:
     #   tolerance  - epsilon tolerance before beginning testing, default is 0.05 
     #   n_test     - discrete number of testing trials to perform, default is 0
-    sim.run(n_test=10, tolerance=0.001)
+    sim.run(n_test=50, tolerance=0.001)
 
 
 if __name__ == '__main__':
