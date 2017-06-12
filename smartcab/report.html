@@ -13643,8 +13643,8 @@ xJQkSZIkSZKG4v8DcK9R7ELGwLkAAAAASUVORK5CYII=
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer:</strong></p>
 <p>1) The agent is making bad decisions around 37% - 41% of the times, and this is on the lower side of the range in the begining then gradually increases. Around 10% of the actions cause major/minor accidents, both major and minor accidents remain in the range of 3% - 5.5%.</p>
-<p>2) As we have set <strong>learning = False</strong> the agent is not learning and is driving randomly. So the rate of reliability does not make sense (and in my opinion even the Safety Rating doesnt make sense).</p>
-<p>3) The driving agent receives positive and negative rewards of different values, which depend both on its environment as well as the random actions that the agent takes. The rewards doesnot seem to be heavily penalizing the agent because they are in line with the combination of action and the environment and also consisting with the grading policily explained in the begining.</p>
+<p>2) As we have set <strong>learning = False</strong> the agent is not learning and is driving randomly thus the reliability rating makes sense as we can only reach the destination(within the deadline) around 30% of the times.</p>
+<p>3) The driving agent receives positive and negative rewards of different values, which depend both on its environment as well as the random actions that the agent takes. The rewards doesnot seem to be heavily penalizing the agent because <code>'Major Violations'</code> as well as the <code>'Major/Minor Accidents'</code> are relatively higher towards the end and the rewards decrease as the no of trials increases. Therefore they are in line with the combination of action and the environment and also consisting with the grading policily explained in the begining.</p>
 <p>4) As the number of trials increases, outcome of the results doesnot change significantly, as we can see in the graphs Total Bad Actions as well as the minor violation remain in the range of 37%-41%. Rewards (-3.5 to -5) does not vary significantly and the reliability is within the range of 40% - 20% (starts from 30% and closes at 20%). So based on these observation we can conclude that the outcome does not change significantly.</p>
 <p>5) This cab (though not very smart) will not be considered safe as there are major/minor violations(combined) for 30% of the actions and percentage of major/minor accidents(combined) is around 10%. Also the cab cannot be considered reliable as it never reaches the destination. Thus are the ratings given to the agent <code>'F'</code> for both safety and reliability.</p>
 
@@ -15736,7 +15736,7 @@ SZIkSZLUif8HWf04zKoRMU8AAAAASUVORK5CYII=
 <p>2) The agent(Q-Learning) required 20 training trials before it started testing. The initial value of <code>epsilon</code> is one and is decremented by 0.05 so after 2 trials it was (1.0 - 20*0.05) = 0.0 which is less than the tolerance for epsilon (0.001) therefore the number od training trials take by the agent makes sense.</p>
 <p>3) Yes, the decaying function implemented for epsilon (the exploration factor) was accurately represented in the parameters panel and it was decreasing(by 0.05) with each training trial.</p>
 <p>4) Yes we can look at the graphs above and the table to observe that as the number of trials increases, average reward increased significanty and at the same time number of bad actions decreased significantly as well.</p>
-<p>5) The safety and reliability rating are both still <code>'F'</code>. Even though the new Q-Learning agent's performance has improved compare to the initial driving agent, it has not improved significantly enough to earn a better rating for either safety nor reliability.</p>
+<p>5) As we can observe from the <code>'Reliability Rate Chart'</code> above the Q-learning agent can only reach on time for around 35% of times(on average) which is only a slight improvement over the Basic agent and hence the Reliability rating has not improved and the agent is still rated <code>'F'</code>. As for the Safety rating its still <code>'F'</code> (similar to the basic agent) because the performance on Major accidents(component with highest weightage in Safety ratings) has seen almost no improvement and even though the rate of Minor Accidents has improved but we cannot call it significant. From the first point we can see that on some parameters performance of the Q-learning agent has improved over the Basic agent but the improvement is not significant enough to get better ratings.</p>
 
 </div>
 </div>
@@ -42413,7 +42413,7 @@ mZmZmZmZVYQTU2ZmZmZmZmZmVhFOTJmZmZmZmZmZWUX8P/NYuj9+ZlNlAAAAAElFTkSuQmCC
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Answer:</strong> The exmple : an agent that wants to move <code>'forward'</code> on <code>'green light'</code>, when the vehicle to its left is <code>'stationary'</code> and oncoming trafic from the opposite side wants to move <code>'right'</code>.</p>
+<p><strong>Answer:</strong> The exmple : an agent that wants to move <code>'forward'</code> on <code>'red light'</code>, when the vehicle to its left intends to go is <code>'forward'</code> and oncoming trafic from the opposite side wants to move <code>'left'</code>.</p>
 <table>
 <thead><tr>
 <th style="text-align:center">S. No.</th>
@@ -42425,45 +42425,50 @@ mZmZmZmZVYQTU2ZmZmZmZmZmVhFOTJmZmZmZmZmZWUX8P/NYuj9+ZlNlAAAAAElFTkSuQmCC
 <tbody>
 <tr>
 <td style="text-align:center">1</td>
-<td style="text-align:center">forward_green_None_right</td>
-<td style="text-align:center">None</td>
+<td style="text-align:center">forward_red_forward_left</td>
+<td style="text-align:center">forward</td>
 <td style="text-align:center">incorrect</td>
 </tr>
 <tr>
 <td style="text-align:center">2</td>
-<td style="text-align:center">forward_green_None_right</td>
-<td style="text-align:center">forward</td>
-<td style="text-align:center">optimal</td>
+<td style="text-align:center">forward_red_forward_left</td>
+<td style="text-align:center">right</td>
+<td style="text-align:center">incorrect</td>
 </tr>
 <tr>
 <td style="text-align:center">3</td>
-<td style="text-align:center">forward_green_None_right</td>
-<td style="text-align:center">right</td>
-<td style="text-align:center">sub-optimal</td>
+<td style="text-align:center">forward_red_forward_left</td>
+<td style="text-align:center">None</td>
+<td style="text-align:center">optimal</td>
 </tr>
 <tr>
 <td style="text-align:center">4</td>
-<td style="text-align:center">forward_green_None_right</td>
+<td style="text-align:center">forward_red_forward_left</td>
 <td style="text-align:center">left</td>
 <td style="text-align:center">incorrect</td>
 </tr>
 </tbody>
 </table>
 <p>The reinforcement learning algorithm assigns following rewards to the agent actions in the given state.</p>
-<p><code>forward_green_None_right  
- -- forward : 2.11  
- -- right : 0.77  
- -- None : -5.49  
- -- left : -19.60</code></p>
-<p>The action with the highest reward of 2.11 for this policy <code>'forward'</code>, matches that of the correct action in the optimal policy. It has also learned a suboptimal policy <code>'right'</code> which has a lesser reward of 0.77 which also matches that of the correct action for the suboptimal policy. This makes sense, since in the US you are allowed to make right turns irrespective of the light (red/green) if there is no trafic. Then there are actions which are negatively rewarded and we can see the minor violation of not moving on <code>'green light'</code> is rewarded less seviourly than going <code>'left'</code> which will result in an accident.</p>
-<p>We can look at <code>'sim_improved-learning.txt'</code> to find some suboptimal policies and one them is the following policy:</p>
-<p><code>left_green_left_left  
- -- forward : 0.91  
- -- right : 0.60  
- -- None : 0.97  
- -- left : 1.82</code></p>
-<p>We can see here that the agent is on <code>'green light'</code> and wants to go left while the trafic on its left will move to the <code>left</code> and the traffic the opposite direction intend to go <code>'left'</code>. Now the action of moving forward when intended direction of the agent is left is getting a positive reward which we can clearly understand is a wrong action similarly remaining idle on green light which again is wrong action is getting a possitive reward. Thus we can conclude that this policy is not optimal and if followed may result in delays(at the least).</p>
-<p>Though this is not th optimal policy but still we can observe that it gives highest reward to the action of moving <code>'left'</code> which is the correct action to take in this state. The action <code>'None'</code> is awarded 0.97 which will result in a minor violation but still better than moving <code>'forward'</code> or going <code>'right'</code> both of which resulting in more delays.</p>
+<p><code>forward_red_forward_left  
+ -- forward : -40.16  
+ -- right : -19.83  
+ -- None : 1.69  
+ -- left : -39.65</code></p>
+<p>As we can observe the agent is on <code>'red light'</code>and thus being stationary i.e. taking the action <code>'None'</code> makes most sense and that is awarded highest points(1.69) so the agent is able to learn the optimal policy. Then if we see both the action of moving <code>'forward'</code> and <code>'left'</code> have been awarded the lowest reward(-40.16, -39.65 respectively), this is because along with breaking the traffic rule they might result in Major accidents. While the action of going <code>'right'</code> doesnot break any traffic rule but it can result in a Major Accdent and thus is rewarded negatively(-19.83).</p>
+<p>We can look at <code>'sim_improved-learning.txt'</code> to find some suboptimal policies and one of them is the following policy:</p>
+<p><code>right_red_left_forward  
+  -- forward : -9.92  
+  -- right : 0.92  
+  -- None : 2.39  
+  -- left : -9.96</code></p>
+<p>We can see here that the agent is on <code>'red light'</code> and wants to go <code>'right'</code> while the trafic on its left will move to the <code>left</code> and the traffic the opposite direction intend to go <code>'forward'</code>. In such an environment action of moving <code>'right'</code> is a correct action (see the part of <code>'evironment.py'</code> below) but here the reward given to action <code>'None'</code> is highest and hence the agent won't prefer to take the <code>'right'</code> turn which is the correct action, so the policy here is not optimal.</p>
+<p><code># Agent wants to drive right:
+        elif action == 'right':
+            if light != 'green' and inputs['left'] == 'forward': # Cross traffic
+                violation = 3 # Accident
+            else: # Valid move!
+                heading = (-heading[1], heading[0])</code></p>
 
 </div>
 </div>
